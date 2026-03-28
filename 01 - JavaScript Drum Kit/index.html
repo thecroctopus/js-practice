@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>JS Drum Machine</title>
+    <link rel="stylesheet" href="myStyles.css" />
+    <link rel="icon" href="https://fav.farm/🔥" />
+  </head>
+  <body>
+    <div class="keys">
+      <button type="button" data-key="65" class="key">
+        <kbd>A</kbd>
+        <span class="sound">Clap</span>
+      </button>
+      <button type="button" data-key="83" class="key">
+        <kbd>S</kbd>
+        <span class="sound">HiHat</span>
+      </button>
+      <button type="button" data-key="68" class="key">
+        <kbd>D</kbd>
+        <span class="sound">openhat</span>
+      </button>
+      <button type="button" data-key="70" class="key">
+        <kbd>F</kbd>
+        <span class="sound">kick</span>
+      </button>
+      <button type="button" data-key="71" class="key">
+        <kbd>G</kbd>
+        <span class="sound">boom</span>
+      </button>
+      <button type="button" data-key="72" class="key">
+        <kbd>H</kbd>
+        <span class="sound">cowbell</span>
+      </button>
+      <button type="button" data-key="74" class="key">
+        <kbd>J</kbd>
+        <span class="sound">snare</span>
+      </button>
+      <button type="button" data-key="75" class="key">
+        <kbd>K</kbd>
+        <span class="sound">tom</span>
+      </button>
+      <button type="button" data-key="76" class="key">
+        <kbd>L</kbd>
+        <span class="sound">clave</span>
+      </button>
+    </div>
+
+    <audio data-key="65" src="sounds/CLAP_SMACK.wav"></audio>
+    <audio data-key="83" src="sounds/HAT_DARK.wav"></audio>
+    <audio data-key="68" src="sounds/HAT_OPEN.wav"></audio>
+    <audio data-key="70" src="sounds/KICK_808.wav"></audio>
+    <audio data-key="71" src="sounds/808_BOOM.wav"></audio>
+    <audio data-key="72" src="sounds/BELL_BASIC.wav"></audio>
+    <audio data-key="74" src="sounds/SNARE_BASIC.wav"></audio>
+    <audio data-key="75" src="sounds/TOM_MIDDLE.wav"></audio>
+    <audio data-key="76" src="sounds/CLAVE_HIGH.wav"></audio>
+
+    <script>
+      function playSound(e) {
+        const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+        const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+        if (!audio) return; //stop the function from running all together
+        audio.currentTime = 0;
+        audio.play();
+        key.classList.add("playing");
+      }
+
+      function removeTransition(e) {
+        if (e.propertyName !== "transform") return;
+        this.classList.remove("playing");
+      }
+
+      const keys = document.querySelectorAll(".key");
+      keys.forEach((key) =>
+        key.addEventListener("transitionend", removeTransition),
+      );
+
+      window.addEventListener("keydown", playSound);
+    </script>
+  </body>
+</html>
